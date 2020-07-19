@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+         
+        function formValidation(){  
+        var x = document.getElementById('form-email').value;
+        if (x == ""){
+            alert('Preencha o campo de email')
+            }
+            var y = document.getElementById('form-password').value;
+        if (y == ""){
+            alert('Preencha o campo de password')
+            }
+        }
+        function request(){
+            var x = document.getElementById('form-email')
+            var y = document.getElementById('form-password')
+            const xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+       // Typical action to be performed when the document is ready:
+       var obj = JSON.parse(this.responseText) 
+       document.getElementById("serverRes").innerHTML = obj.user.name + " " + "Bem vindo";
+    }
+};
+xhttp.open("POST", "http://52.91.139.190/fsapi/users/login", true);
+xhttp.setRequestHeader("Content-type", "application/json");
+xhttp.send(JSON.stringify({
+        "email": x.value,
+        "password": y.value }));
+        event.preventDefault()
+        }
+        
+    </script>
+</head>
+<body>
+    <form>
+        <label for="email">Email do usuario:</label></br>
+        <input type="email" name="email" id="form-email" value=""></br>
+        <label for="password">Senha:</label></br>
+        <input type="password" name="password" id="form-password" value=""></br>
+        <button type="submit" onclick="request()">Enviar</button>
+    </form>
+    <p id="serverRes"></p>
+</body>
+</html>
